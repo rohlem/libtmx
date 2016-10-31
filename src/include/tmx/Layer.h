@@ -18,12 +18,34 @@
 
 #include "Component.h"
 
+#include <stdexcept>
+
 namespace tmx {
   class LayerVisitor;
   class Map;
 
   //#added to remove dependency on virtuality to identify the type of a layer
-  enum class LayerType {TILE, IMAGE, OBJECT};
+  enum class LayerType {TILE, OBJECT, IMAGE};
+
+  //#added forward declarations to enable them to be used as template parameters
+  class TileLayer;
+  class ObjectLayer;
+  class ImageLayer;
+
+  //#added to relate types with enum values
+  namespace detail{
+	//#typename -> LayerType
+	template <typename LAYER_TYPE> struct LayerTraits;
+	template <> struct LayerTraits<TileLayer>   {static constexpr LayerType layer_type = LayerType::TILE;};
+	template <> struct LayerTraits<ObjectLayer> {static constexpr LayerType layer_type = LayerType::OBJECT;};
+	template <> struct LayerTraits<ImageLayer>  {static constexpr LayerType layer_type = LayerType::IMAGE;};
+
+	//#LayerType -> typename
+	template <LayerType TYPE> struct LayerTypeTraits;
+	template <> struct LayerTypeTraits<LayerType::TILE>   {typedef TileLayer   type;};
+	template <> struct LayerTypeTraits<LayerType::OBJECT> {typedef ObjectLayer type;};
+	template <> struct LayerTypeTraits<LayerType::IMAGE>  {typedef ImageLayer  type;};
+  }
 
   /**
    * @brief A layer is a layer in the whole map.
@@ -31,7 +53,8 @@ namespace tmx {
    * There are three kinds of layers: image layers, tile layers and object layers.
    */
   class Layer : public Component {
-  public:
+  //#changed to protected; with constructor only accessible through subclasses this class is as good as abstract
+  protected:
     /**
      * @brief Layer constructor.
      */
@@ -41,6 +64,7 @@ namespace tmx {
     {
     }
 
+  public:
     /**
      * @brief Layer destructor.
      */
@@ -62,8 +86,23 @@ namespace tmx {
       return m_name;
     }
 
-	//#added; returns this layer's subtype
+	//#added for retrieving this layer's subtype
 	const LayerType& getType() const noexcept {return type;}
+
+	//#added; compile-time switched noexcept specification
+#ifdef _DEBUG
+#define NOEXCEPT_IFNDEF_DEBUG 
+#else//#ifdef _DEBUG
+#define NOEXCEPT_IFNDEF_DEBUG noexcept
+#endif//#ifdef _DEBUG
+	//#added; explicit (but neater) cast checked in debug mode
+	template <LayerType TYPE> const TileLayer& as() const NOEXCEPT_IFNDEF_DEBUG {
+	#ifdef _DEBUG
+		if(type != detail::LayerTraits<TYPE>::layer_type)
+			throw std::runtime_error("Attempted invalid Layer cast!");
+	#endif
+		return *static_cast<TYPE*>(this);
+	}
 
     /**
      * @brief Get the opacity of the layer.

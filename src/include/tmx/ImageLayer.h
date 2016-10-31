@@ -30,7 +30,7 @@ namespace tmx {
      * @brief ImageLayer constructor
      */
     ImageLayer(const std::string& name, double opacity, bool visible)
-      : Layer(name, opacity, visible, LayerType::IMAGE), m_image(nullptr)
+      : Layer(name, opacity, visible, detail::LayerTraits<TileLayer>::layer_type), m_image(nullptr)
     {
     }
 
