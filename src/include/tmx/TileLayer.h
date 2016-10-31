@@ -32,7 +32,7 @@ namespace tmx {
      * @brief TileLayer constructor.
      */
     TileLayer(const std::string& name, double opacity, bool visible)
-      : Layer(name, opacity, visible)
+      : Layer(name, opacity, visible, LayerType::TILE)
     {
     }
 

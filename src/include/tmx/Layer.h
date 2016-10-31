@@ -22,6 +22,9 @@ namespace tmx {
   class LayerVisitor;
   class Map;
 
+  //#added to remove dependency on virtuality to identify the type of a layer
+  enum class LayerType {TILE, IMAGE, OBJECT};
+
   /**
    * @brief A layer is a layer in the whole map.
    *
@@ -32,8 +35,9 @@ namespace tmx {
     /**
      * @brief Layer constructor.
      */
-    Layer(const std::string& name, double opacity, bool visible)
-      : m_name(name), m_opacity(opacity), m_visible(visible)
+	//#added type parameter
+    Layer(const std::string& name, double opacity, bool visible, LayerType type)
+      : m_name(name), m_opacity(opacity), m_visible(visible), type(type)
     {
     }
 
@@ -58,6 +62,9 @@ namespace tmx {
       return m_name;
     }
 
+	//#added; returns this layer's subtype
+	const LayerType& getType() const noexcept {return type;}
+
     /**
      * @brief Get the opacity of the layer.
      *
@@ -80,6 +87,8 @@ namespace tmx {
     const std::string m_name;
     double m_opacity;
     bool m_visible;
+	//#added to remove dependency on virtuality to identify the type of a layer
+	LayerType type;
 
   };
 
