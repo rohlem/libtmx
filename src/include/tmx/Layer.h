@@ -75,7 +75,7 @@ namespace tmx {
      *
      * @param visitor the visitor
      */
-    virtual void accept(const Map& map, LayerVisitor& visitor) const = 0;
+    void accept(const Map& map, LayerVisitor& visitor) const;
 
     /**
      * @brief Get the name of the layer.
@@ -88,21 +88,6 @@ namespace tmx {
 
 	//#added for retrieving this layer's subtype
 	const LayerType& getType() const noexcept {return type;}
-
-	//#added; compile-time switched noexcept specification
-#ifdef _DEBUG
-#define NOEXCEPT_IFNDEF_DEBUG 
-#else//#ifdef _DEBUG
-#define NOEXCEPT_IFNDEF_DEBUG noexcept
-#endif//#ifdef _DEBUG
-	//#added; explicit (but neater) cast checked in debug mode
-	template <LayerType TYPE> const TileLayer& as() const NOEXCEPT_IFNDEF_DEBUG {
-	#ifdef _DEBUG
-		if(type != detail::LayerTraits<TYPE>::layer_type)
-			throw std::runtime_error("Attempted invalid Layer cast!");
-	#endif
-		return *static_cast<TYPE*>(this);
-	}
 
     /**
      * @brief Get the opacity of the layer.

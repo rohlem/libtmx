@@ -14,6 +14,7 @@
  * OR IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 #include <tmx/Layer.h>
+#include <tmx/Layers.h>
 #include <tmx/LayerVisitor.h>
 #include <tmx/ImageLayer.h>
 #include <tmx/ObjectLayer.h>
@@ -22,6 +23,14 @@
 namespace tmx {
 
   Layer::~Layer() {
+  }
+
+  void Layer::accept(const Map& map, LayerVisitor& visitor) const {
+	switch(type){
+		case LayerType::TILE:   as<LayerType::TILE>  (*this).accept(map, visitor); break;
+		case LayerType::OBJECT: as<LayerType::OBJECT>(*this).accept(map, visitor); break;
+		case LayerType::IMAGE:  as<LayerType::IMAGE> (*this).accept(map, visitor); break;
+	}
   }
 
   void ImageLayer::accept(const Map& map, LayerVisitor& visitor) const {
