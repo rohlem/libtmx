@@ -37,6 +37,9 @@ namespace tmx {
     }
 
     void accept(const Map& map, LayerVisitor& visitor) const;
+	//#added custom accept that accepts callable template arguments (=> lambda support)
+	template <typename TILE_PRED>
+	void accept(const Map& map, TILE_PRED&& tile_pred) const {tile_pred(map, *this);}
 
     /**
      * @brief Add a cell to the layer.

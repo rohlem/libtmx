@@ -50,6 +50,9 @@ namespace tmx {
     }
 
     void accept(const Map& map, LayerVisitor& visitor) const;
+	//#added custom accept that accepts callable template arguments (=> lambda support)
+	template <typename OBJECT_PRED>
+	void accept(const Map& map, OBJECT_PRED&& object_pred) const {object_pred(map, *this);}
 
     /**
      * @brief Get the color used to display the objects.

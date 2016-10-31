@@ -35,6 +35,9 @@ namespace tmx {
     }
 
     void accept(const Map& map, LayerVisitor& visitor) const;
+	//#added custom accept that accepts callable template arguments (=> lambda support)
+	template <typename IMAGE_PRED>
+	void accept(const Map& map, IMAGE_PRED&& image_pred) const {image_pred(map, *this);}
 
     /**
      * @brief Assign the image for the layer.
