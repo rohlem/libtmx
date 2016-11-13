@@ -45,7 +45,7 @@ namespace tmx {
      * @brief ObjectLayer constructor.
      */
     ObjectLayer(const std::string& name, double opacity, bool visible, const std::string& color, DrawOrder order)
-      : Layer(name, opacity, visible, detail::LayerTraits<TileLayer>::layer_type), m_color(color), m_order(order)
+      : Layer(name, opacity, visible, detail::LayerTraits<ObjectLayer>::layer_type), m_color(color), m_order(order)
     {
     }
 
