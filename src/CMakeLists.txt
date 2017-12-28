@@ -9,9 +9,9 @@ option(TMX_DOC "Build the documentation" OFF)
 
 include(CPackConfig.cmake)
 
-find_package(PkgConfig REQUIRED)
+# find_package(PkgConfig REQUIRED)
 
-pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
+find_package(TINYXML2 REQUIRED tinyxml2) # pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
 
 find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
