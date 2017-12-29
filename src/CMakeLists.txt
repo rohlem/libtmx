@@ -9,20 +9,16 @@ option(TMX_DOC "Build the documentation" OFF)
 
 include(CPackConfig.cmake)
 
-# find_package(PkgConfig REQUIRED)
+# originally: find_package(PkgConfig REQUIRED) - unnecessary, CMake uses pkg-config under the hood when it sees fit to do so anyway
 
-find_package(TINYXML2 REQUIRED tinyxml2) # pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
+find_package(TINYXML2 REQUIRED tinyxml2) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
 
 find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
-add_definitions(-Wall -g -O2)
+# originally: add_definitions(-Wall -g -O2) - not useful, and can lead to errors ; this particular use case is available as the CMake generated build target "RelWithDebInfo" (Release with Debug information)
 
-if(WIN32)
-  add_definitions(-std=c++0x)
-else(WIN32)
-  add_definitions(-std=c++11)
-endif(WIN32)
+# C++11 specification moved into lib/CMakeLists.txt
 
 include_directories(${LIBTMX_SOURCE_DIR}/include)
 
