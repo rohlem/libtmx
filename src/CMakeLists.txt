@@ -4,6 +4,8 @@ cmake_minimum_required(VERSION 2.8.9)
 
 project(LIBTMX CXX)
 
+option(BUILD_SHARED_LIBS "Build the library as shared; note that no symbols are exported explicitly (-> no import library generated under MSVC)" OFF)
+
 option(TMX_RENDER "Build tmx_render" OFF)
 option(TMX_DOC "Build the documentation" OFF)
 

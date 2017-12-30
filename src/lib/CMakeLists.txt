@@ -14,7 +14,7 @@ set(LIBTMX_SRC
   TileSet.cc
 )
 
-add_library(tmx0 SHARED
+add_library(tmx0
   ${LIBTMX_SRC}
 )
 # originally: if(WIN32)
