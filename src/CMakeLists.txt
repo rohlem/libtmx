@@ -13,7 +13,13 @@ include(CPackConfig.cmake)
 
 # originally: find_package(PkgConfig REQUIRED) - unnecessary, CMake uses pkg-config under the hood when it sees fit to do so anyway
 
-find_package(TINYXML2 REQUIRED tinyxml2) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
+option(LINK_TINYXML2_STATICALLY "Link to the static version of tinyxml2 instead of the shared version (previously defaulted to OFF)" ON)
+if(LINK_TINYXML2_STATICALLY)
+	set( LIBTMX_TINYXML2_TARGET tinyxml2_static )
+else(LINK_TINYXML2_STATICALLY)
+	set( LIBTMX_TINYXML2_TARGET tinyxml2 )
+endif(LINK_TINYXML2_STATICALLY)
+find_package(TINYXML2 REQUIRED ${LIBTMX_TINYXML2_TARGET}) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
 
 find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)

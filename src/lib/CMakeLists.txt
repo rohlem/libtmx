@@ -25,7 +25,7 @@ add_library(tmx0
 # new, better alternative (see https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html#requiring-language-standards , also discussion around https://stackoverflow.com/a/46809634 )
 target_compile_features(tmx0 PUBLIC cxx_std_11)
 
-target_link_libraries(tmx0 ${TINYXML2_LDFLAGS} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES})
+target_link_libraries(tmx0 ${LIBTMX_TINYXML2_TARGET} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES})
 
 set_target_properties(tmx0
   PROPERTIES
