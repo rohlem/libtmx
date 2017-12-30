@@ -23,7 +23,7 @@ add_library(tmx0
 # originally:  add_definitions(-std=c++11)
 # originally: endif(WIN32)
 # new, better alternative (see https://cmake.org/cmake/help/latest/manual/cmake-compile-features.7.html#requiring-language-standards , also discussion around https://stackoverflow.com/a/46809634 )
-target_compile_features(tmx0 PUBLIC cxx_std_11) # the target name is libtmx0, as defined in CPackConfig.cmake
+target_compile_features(tmx0 PUBLIC cxx_std_11)
 
 target_link_libraries(tmx0 ${TINYXML2_LDFLAGS} ${ZLIB_LIBRARIES} ${Boost_LIBRARIES})
 
