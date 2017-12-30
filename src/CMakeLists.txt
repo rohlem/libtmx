@@ -4,25 +4,29 @@ cmake_minimum_required(VERSION 2.8.9)
 
 project(LIBTMX CXX)
 
+option(BUILD_SHARED_LIBS "Build the library as shared; note that no symbols are exported explicitly (-> no import library generated under MSVC)" OFF)
+
 option(TMX_RENDER "Build tmx_render" OFF)
 option(TMX_DOC "Build the documentation" OFF)
 
 include(CPackConfig.cmake)
 
-find_package(PkgConfig REQUIRED)
+# originally: find_package(PkgConfig REQUIRED) - unnecessary, CMake uses pkg-config under the hood when it sees fit to do so anyway
 
-pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
+option(LINK_TINYXML2_STATICALLY "Link to the static version of tinyxml2 instead of the shared version (previously defaulted to OFF)" ON)
+if(LINK_TINYXML2_STATICALLY)
+	set( LIBTMX_TINYXML2_TARGET tinyxml2_static )
+else(LINK_TINYXML2_STATICALLY)
+	set( LIBTMX_TINYXML2_TARGET tinyxml2 )
+endif(LINK_TINYXML2_STATICALLY)
+find_package(TINYXML2 REQUIRED ${LIBTMX_TINYXML2_TARGET}) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
 
 find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
-add_definitions(-Wall -g -O2)
+# originally: add_definitions(-Wall -g -O2) - not useful, and can lead to errors ; this particular use case is available as the CMake generated build target "RelWithDebInfo" (Release with Debug information)
 
-if(WIN32)
-  add_definitions(-std=c++0x)
-else(WIN32)
-  add_definitions(-std=c++11)
-endif(WIN32)
+# C++11 specification moved into lib/CMakeLists.txt
 
 include_directories(${LIBTMX_SOURCE_DIR}/include)
 
