@@ -153,7 +153,7 @@ namespace tmx {
 
       std::string getStringAttribute(const char *name, Requirement req = Requirement::MANDATORY, const char *val = "") const {
         const char *attr = m_elt->Attribute(name);
-        int err = tinyxml2::XML_NO_ERROR;
+        int err = tinyxml2::XML_SUCCESS;
 
         if (!attr) {
           attr = val;
@@ -178,7 +178,7 @@ namespace tmx {
 
       template<typename T>
       T handleErrorAndReturn(const char *name, T val, int err, Requirement req) const {
-        if (err == tinyxml2::XML_NO_ERROR) {
+        if (err == tinyxml2::XML_SUCCESS) {
           return val;
         }
 
@@ -712,11 +712,11 @@ namespace tmx {
 
         if (doc.Error()) {
           std::clog << "Error! Unable to load a TSX file: " << tilesetPath << '\n';
-          assert(err != tinyxml2::XML_NO_ERROR);
+          assert(err != tinyxml2::XML_SUCCESS);
           return nullptr;
         }
 
-        assert(err == tinyxml2::XML_NO_ERROR);
+        assert(err == tinyxml2::XML_SUCCESS);
 
         currentPath = tilesetPath.parent_path();
 
@@ -854,14 +854,14 @@ namespace tmx {
         int err = doc.LoadFile(mapPath.string().c_str());
 
         if (doc.Error()) {
-          assert(err != tinyxml2::XML_NO_ERROR);
+          assert(err != tinyxml2::XML_SUCCESS);
           std::clog << "Error! Unable to load the TMX file: " << mapPath << '\n';
           return nullptr;
         }
 
         currentPath = mapPath.parent_path();
 
-        assert(err == tinyxml2::XML_NO_ERROR);
+        assert(err == tinyxml2::XML_SUCCESS);
         return parseMap(doc.RootElement());
       }
 
