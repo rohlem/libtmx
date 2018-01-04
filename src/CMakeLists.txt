@@ -19,9 +19,9 @@ if(LINK_TINYXML2_STATICALLY)
 else(LINK_TINYXML2_STATICALLY)
 	set( LIBTMX_TINYXML2_TARGET tinyxml2 )
 endif(LINK_TINYXML2_STATICALLY)
-find_package(TINYXML2 REQUIRED ${LIBTMX_TINYXML2_TARGET}) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
+find_package(tinyxml2 REQUIRED ${LIBTMX_TINYXML2_TARGET}) # originally: pkg_check_modules(TINYXML2 REQUIRED tinyxml2)
 
-find_package(ZLIB REQUIRED)
+find_package(zlib REQUIRED) # originally: find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
 # originally: add_definitions(-Wall -g -O2) - not useful, and can lead to errors ; this particular use case is available as the CMake generated build target "RelWithDebInfo" (Release with Debug information)
