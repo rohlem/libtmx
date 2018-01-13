@@ -76,15 +76,6 @@ namespace tmx {
      * @param visitor the visitor
      */
     void accept(const Map& map, LayerVisitor& visitor) const;
-	//#added custom accept that accepts callable template arguments (=> lambda support)
-	template <typename TILE_PRED, typename OBJ_PRED, typename IMAGE_PRED>
-    void accept(const Map& map, TILE_PRED&& tile_pred, OBJ_PRED&& obj_pred, IMAGE_PRED&& image_pred) const {
-		switch(type){
-			case LayerType::TILE:   as<LayerType::TILE>  (*this).accept(map, tile_pred ); break;
-			case LayerType::OBJECT: as<LayerType::OBJECT>(*this).accept(map, obj_pred  ); break;
-			case LayerType::IMAGE:  as<LayerType::IMAGE> (*this).accept(map, image_pred); break;
-		}
-	}
 
     /**
      * @brief Get the name of the layer.

@@ -31,6 +31,16 @@ namespace tmx{
 	#endif
 	  return static_cast<typename detail::LayerTypeTraits<TYPE>::type&>(layer);
 	}
+	
+	//#added custom accept that accepts callable template arguments (=> lambda support)
+	template <typename TILE_PRED, typename OBJ_PRED, typename IMAGE_PRED>
+    void accept(const Layer& layer, const Map& map, TILE_PRED&& tile_pred, OBJ_PRED&& obj_pred, IMAGE_PRED&& image_pred){
+		switch(layer.getType()){
+			case LayerType::TILE:   as<LayerType::TILE>  (layer).accept(map, tile_pred ); break;
+			case LayerType::OBJECT: as<LayerType::OBJECT>(layer).accept(map, obj_pred  ); break;
+			case LayerType::IMAGE:  as<LayerType::IMAGE> (layer).accept(map, image_pred); break;
+		}
+	}
 
 }
 
