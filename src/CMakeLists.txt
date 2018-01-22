@@ -27,7 +27,7 @@ if(LINK_ZLIB_STATICALLY)
 else(LINK_ZLIB_STATICALLY)
 	set( LIBTMX_ZLIB_TARGET zlib )
 endif(LINK_ZLIB_STATICALLY)
-find_package(zlib REQUIRED ${LIBTMX_ZLIB_TARGET}) # originally: find_package(ZLIB REQUIRED)
+find_package(ZLIB REQUIRED ${LIBTMX_ZLIB_TARGET}) # originally: find_package(ZLIB REQUIRED)
 find_package(Boost REQUIRED COMPONENTS filesystem system)
 
 # originally: add_definitions(-Wall -g -O2) - not useful, and can lead to errors ; this particular use case is available as the CMake generated build target "RelWithDebInfo" (Release with Debug information)
